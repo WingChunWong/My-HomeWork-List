@@ -1,11 +1,10 @@
-# .github/workflows/deploy-to-pages.yml
+# .github/workflows/deploy.yml
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [ main, master ]
   workflow_dispatch:  # 允许手动触发
-  # 当 homework_data.json 更新时也触发部署
 
 # 设置 GITHUB_TOKEN 的权限
 permissions:
@@ -83,7 +82,6 @@ jobs:
       uses: actions/upload-pages-artifact@v3
       with:
         path: .
-        # 只上传必要的文件，忽略无关文件
         name: github-pages
 
   deploy:

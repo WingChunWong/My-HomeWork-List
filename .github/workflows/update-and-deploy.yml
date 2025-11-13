@@ -1,20 +1,19 @@
-# .github/workflows/update-homework.yml
-name: Update Homework Data
+# .github/workflows/update-and-deploy.yml
+name: Update Data and Deploy
 
 on:
   schedule:
-    # 每天 UTC 时间 09:00 运行 (香港时间 UTC+8 15:00)
-    - cron: '0 9 * * *'
-  workflow_dispatch:  # 允许手动触发
+    - cron: '0 9 * * *'  # 每天 UTC 09:00 (香港时间 17:00)
+  workflow_dispatch:
     inputs:
       force_full_update:
-        description: '强制完整更新（从9月1日开始重新获取）'
+        description: '强制完整更新'
         required: false
         default: false
         type: boolean
 
 jobs:
-  update-homework:
+  update-data:
     runs-on: ubuntu-latest
     
     steps:
@@ -22,6 +21,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
         
     - name: Setup Python
       uses: actions/setup-python@v4
@@ -50,12 +50,10 @@ jobs:
         echo "开始运行家课数据爬虫..."
         python homework_crawler.py
         
-        # 检查是否成功生成数据文件
         if [ -f "homework_data.json" ]; then
           echo "数据文件生成成功"
           echo "::set-output name=data_updated::true"
           
-          # 统计记录数量
           RECORD_COUNT=$(python -c "import json; data = json.load(open('homework_data.json')); print(len(data))")
           echo "记录数量: $RECORD_COUNT"
           echo "::set-output name=record_count::$RECORD_COUNT"
@@ -70,14 +68,15 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         
-        # 检查是否有文件变更
-        if git diff --quiet; then
-          echo "没有检测到文件变更"
+        if git diff --quiet homework_data.json homework_data.xlsx; then
+          echo "没有检测到数据文件变更"
+          echo "::set-output name=has_changes::false"
         else
-          echo "检测到文件变更，提交更新"
+          echo "检测到数据文件变更，提交更新"
           git add homework_data.json homework_data.xlsx
-          git commit -m "📚 自动更新家课数据 (${{ steps.crawler.outputs.record_count }} 条记录) [skip ci]"
+          git commit -m "📚 自动更新家课数据 (${{ steps.crawler.outputs.record_count }} 条记录)"
           git push
+          echo "::set-output name=has_changes::true"
         fi
         
     - name: Create summary
@@ -96,21 +95,76 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "👤 **手动触发用户:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
           fi
+          
+          if [ "${{ steps.crawler.outputs.has_changes }}" = "true" ]; then
+            echo "🚀 **部署状态:** 已触发自动部署" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "ℹ️ **部署状态:** 无数据变更，无需部署" >> $GITHUB_STEP_SUMMARY
+          fi
         else
           echo "❌ **状态:** 数据更新失败" >> $GITHUB_STEP_SUMMARY
           echo "⚠️ 请检查凭据配置和网络连接" >> $GITHUB_STEP_SUMMARY
         fi
         
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "---" >> $GITHUB_STEP_SUMMARY
-        echo "下次自动运行: 每天 UTC 18:00 (香港时间 02:00)" >> $GITHUB_STEP_SUMMARY
-        
-    - name: Upload homework data as artifact
-      if: steps.crawler.outputs.data_updated == 'true'
-      uses: actions/upload-artifact@v4
+    outputs:
+      has_changes: ${{ steps.crawler.outputs.has_changes }}
+      record_count: ${{ steps.crawler.outputs.record_count }}
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: update-data
+    if: needs.update-data.outputs.has_changes == 'true'
+    
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    concurrency:
+      group: "pages"
+      cancel-in-progress: false
+
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
       with:
-        name: homework-data
-        path: |
-          homework_data.json
-          homework_data.xlsx
-        retention-days: 7
+        fetch-depth: 0
+        
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+      
+    - name: Build and test website
+      run: |
+        echo "正在构建网站..."
+        
+        # 验证必要文件
+        [ -f "index.html" ] || exit 1
+        [ -f "script.js" ] || exit 1
+        [ -f "style.css" ] || exit 1
+        [ -f "homework_data.json" ] || exit 1
+        
+        # 创建版本信息
+        cat > version.json << EOF
+        {
+          "build_time": "$(date -Iseconds)",
+          "commit_hash": "${{ github.sha }}",
+          "data_records": ${{ needs.update-data.outputs.record_count }},
+          "deploy_type": "auto-update"
+        }
+        EOF
+        
+        echo "✅ 网站构建完成"
+        
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: .
+        
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4

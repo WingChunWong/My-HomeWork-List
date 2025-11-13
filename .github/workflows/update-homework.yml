@@ -1,0 +1,116 @@
+# .github/workflows/update-homework.yml
+name: Update Homework Data
+
+on:
+  schedule:
+    # 每天 UTC 时间 09:00 运行 (香港时间 UTC+8 15:00)
+    - cron: '0 9 * * *'
+  workflow_dispatch:  # 允许手动触发
+    inputs:
+      force_full_update:
+        description: '强制完整更新（从9月1日开始重新获取）'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  update-homework:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        cache: 'pip'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests beautifulsoup4 pandas openpyxl colorama
+        
+    - name: Create config file
+      run: |
+        cat > portal_config.json << EOF
+        {
+          "username": "${{ secrets.PORTAL_USERNAME }}",
+          "password": "${{ secrets.PORTAL_PASSWORD }}",
+          "last_updated": "${{ github.workflow }}"
+        }
+        EOF
+        
+    - name: Run homework crawler
+      id: crawler
+      run: |
+        echo "开始运行家课数据爬虫..."
+        python homework_crawler.py
+        
+        # 检查是否成功生成数据文件
+        if [ -f "homework_data.json" ]; then
+          echo "数据文件生成成功"
+          echo "::set-output name=data_updated::true"
+          
+          # 统计记录数量
+          RECORD_COUNT=$(python -c "import json; data = json.load(open('homework_data.json')); print(len(data))")
+          echo "记录数量: $RECORD_COUNT"
+          echo "::set-output name=record_count::$RECORD_COUNT"
+        else
+          echo "数据文件生成失败"
+          echo "::set-output name=data_updated::false"
+        fi
+        
+    - name: Commit and push if changes
+      if: steps.crawler.outputs.data_updated == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        # 检查是否有文件变更
+        if git diff --quiet; then
+          echo "没有检测到文件变更"
+        else
+          echo "检测到文件变更，提交更新"
+          git add homework_data.json homework_data.xlsx
+          git commit -m "📚 自动更新家课数据 (${{ steps.crawler.outputs.record_count }} 条记录) [skip ci]"
+          git push
+        fi
+        
+    - name: Create summary
+      if: always()
+      run: |
+        echo "# 家课数据更新报告" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**运行时间:** $(date)" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        if [ "${{ steps.crawler.outputs.data_updated }}" = "true" ]; then
+          echo "✅ **状态:** 数据更新成功" >> $GITHUB_STEP_SUMMARY
+          echo "📊 **记录数量:** ${{ steps.crawler.outputs.record_count }} 条" >> $GITHUB_STEP_SUMMARY
+          echo "🔄 **触发方式:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "👤 **手动触发用户:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          fi
+        else
+          echo "❌ **状态:** 数据更新失败" >> $GITHUB_STEP_SUMMARY
+          echo "⚠️ 请检查凭据配置和网络连接" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "---" >> $GITHUB_STEP_SUMMARY
+        echo "下次自动运行: 每天 UTC 18:00 (香港时间 02:00)" >> $GITHUB_STEP_SUMMARY
+        
+    - name: Upload homework data as artifact
+      if: steps.crawler.outputs.data_updated == 'true'
+      uses: actions/upload-artifact@v4
+      with:
+        name: homework-data
+        path: |
+          homework_data.json
+          homework_data.xlsx
+        retention-days: 7

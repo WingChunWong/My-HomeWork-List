@@ -384,9 +384,3 @@ body {
     .homework-card.horizontal .homework-main {
         padding-right: 0;
     }
-    
-    .card, .main-navbar, .main-footer, #uploadArea .alert {
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-    }
-}

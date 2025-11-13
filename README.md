@@ -1,63 +1,74 @@
-# 在线家课表 (My-HomeWork-List)
+# 線上家課表 (My-HomeWork-List)
 
-一个用于管理和展示家庭作业的在线应用，支持数据爬取、筛选查看和自动部署功能。
+一個用於管理和展示家庭作業的線上應用，支援資料爬取、篩選檢視和自動部署功能。
 
-## 功能特点
+## 功能特點
 
-- 📋 展示家课列表，包含科目、名称、发布日期、截止日期等信息
-- 🔍 多条件筛选：可按发布日期、科目和到期状态（已过期/今天到期/未来到期）筛选
-- 📊 统计信息展示：总家课数、今天到期数和已过期数
-- 🤖 自动爬取：通过爬虫脚本自动获取家课数据
-- 🌐 网页展示：响应式设计，适配不同设备
-- 🔄 自动更新：通过GitHub Actions定期更新数据并部署
+- 📋 展示家課清單，包含科目、名稱、發布日期、截止日期等資訊
 
-## 项目结构
+- 🔍 多條件篩選：可按發布日期、科目和到期狀態（已過期/今天到期/未來到期）篩選
+
+- 📊 統計資訊展示：總家課數、今天到期數和已過期數
+
+- 🤖 自動爬取：透過爬蟲腳本自動獲取家課資料
+
+- 🌐 網頁展示：回應式設計，適配不同裝置
+
+- 🔄 自動更新：透過GitHub Actions定期更新資料並部署
+
+## 專案結構
 
 ```
 My-HomeWork-List/
-├── index.html           # 主页面
-├── script.js            # 前端交互逻辑
-├── style.css            # 样式表
-├── homework_crawler.py  # 家课数据爬虫
-├── homework_data.json   # 家课数据文件
-├── requirements.txt     # Python依赖
-├── LICENSE              # GPLv3许可证
-└── .github/workflows/   # GitHub Actions工作流配置
+├── index.html           # 主頁面
+├── script.js            # 前端互動邏輯
+├── style.css            # 樣式表
+├── homework_crawler.py  # 家課資料爬蟲
+├── homework_data.json   # 家課資料檔案
+├── requirements.txt     # Python依賴
+├── LICENSE              # GPLv3授權條款
+└── .github/workflows/   # GitHub Actions工作流程設定
 ```
 
-## 本地使用
+## 本機使用
 
-### 网页展示
+### 網頁展示
 
-1. 直接打开 `index.html` 文件即可在浏览器中查看
-2. 如果本地没有 `homework_data.json` 文件，可手动上传JSON数据文件
+1. 直接開啟 `index.html` 檔案即可在瀏覽器中檢視
 
-### 数据爬取
+2. 若本機沒有 `homework_data.json` 檔案，可手動上傳JSON資料檔案
 
-1. 安装依赖：
-   ```bash
+### 資料爬取
+
+1. 安裝依賴：
+
+    ```bash
    pip install -r requirements.txt
    ```
 
-2. 运行爬虫：
-   ```bash
+3. 執行爬蟲：
+
+    ```bash
    python homework_crawler.py
    ```
 
-3. 爬虫选项：
+4. 爬蟲選項：
+
    ```bash
-   python homework_crawler.py --clear  # 清除保存的凭据
-   python homework_crawler.py --help   # 显示帮助信息
+   python homework_crawler.py --clear  # 清除儲存的憑證
+   python homework_crawler.py --help   # 顯示說明資訊
    ```
 
-4. 凭据配置（优先级）：
-   - 环境变量：`PORTAL_USERNAME` 和 `PORTAL_PASSWORD`
-   - 本地配置文件：`portal_config.json`
-   - 运行时手动输入
+5. 憑證設定（優先順序）：
 
-## 数据格式
+   - 環境變數：`PORTAL_USERNAME` 和 `PORTAL_PASSWORD`
+   - 本機設定檔案：`portal_config.json`
+   - 執行時手動輸入
 
-`homework_data.json` 数据格式示例：
+## 資料格式
+
+`homework_data.json` 資料格式範例：
+
 ```json
 [
   {
@@ -72,14 +83,14 @@ My-HomeWork-List/
 ]
 ```
 
-## 自动化部署
+## 自動化部署
 
-项目通过GitHub Actions实现自动化：
+專案透過GitHub Actions實現自動化：
 
-1. 定期爬取最新家课数据并更新
-2. 自动部署到GitHub Pages
-3. 包含数据验证和测试步骤
+1. 定期爬取最新家課資料並更新
+2. 自動部署到GitHub Pages
+3. 包含資料驗證和測試步驟
 
-## 许可证
+## 授權條款
 
-本项目采用 [GNU General Public License v3.0](LICENSE) 许可协议。
+本專案採用 [GNU General Public License v3.0](LICENSE) 授權協議。

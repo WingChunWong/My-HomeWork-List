@@ -6,7 +6,7 @@ on:
     branches: [ main, master ]
   workflow_dispatch:  # 允许手动触发
   # 当 homework_data.json 更新时也触发部署
-  paths:
+  status:
     - 'homework_data.json'
     - 'index.html'
     - 'script.js'

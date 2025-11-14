@@ -1,5 +1,5 @@
-# .github/workflows/update-and-deploy.yml
-name: Update Data and Deploy
+# .github/workflows/update-data.yml
+name: Update Homework Data
 
 on:
   schedule:
@@ -15,8 +15,6 @@ on:
 # 设置全局权限
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 jobs:
   update-data:
@@ -25,8 +23,6 @@ jobs:
     # 为这个job单独设置权限
     permissions:
       contents: write
-      pages: write
-      id-token: write
     
     steps:
     - name: Checkout repository
@@ -147,6 +143,27 @@ jobs:
         git commit -m "$COMMIT_MESSAGE"
         git push
         
+        # 触发部署工作流
+        echo "触发部署工作流..."
+        
+    - name: Trigger deployment
+      if: steps.git-check.outputs.has_changes == 'true'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          try {
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'deploy-to-pages.yml',
+              ref: 'main'
+            });
+            console.log('✅ 已成功触发部署工作流');
+          } catch (error) {
+            console.log('⚠️ 触发部署工作流失败，但数据已更新');
+            console.log('错误信息:', error.message);
+          }
+        
     - name: Create summary
       if: always()
       run: |
@@ -177,71 +194,3 @@ jobs:
           echo "- 检查门户网站是否可以正常访问" >> $GITHUB_STEP_SUMMARY
           echo "- 验证登录凭据是否正确" >> $GITHUB_STEP_SUMMARY
         fi
-        
-    outputs:
-      has_changes: ${{ steps.git-check.outputs.has_changes }}
-      record_count: ${{ steps.crawler.outputs.record_count }}
-
-  deploy:
-    name: Deploy to GitHub Pages
-    needs: update-data
-    if: needs.update-data.outputs.has_changes == 'true'
-    
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-
-    concurrency:
-      group: "pages"
-      cancel-in-progress: false
-
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        
-    - name: Setup Pages
-      uses: actions/configure-pages@v4
-      
-    - name: Build and test website
-      run: |
-        echo "正在构建网站..."
-        
-        # 验证必要文件
-        [ -f "index.html" ] || exit 1
-        [ -f "script.js" ] || exit 1
-        [ -f "style.css" ] || exit 1
-        [ -f "homework_data.json" ] || exit 1
-        [ -f "last_update.json" ] || exit 1
-        
-        # 验证JSON格式
-        python -c "import json; json.load(open('homework_data.json'))" || exit 1
-        python -c "import json; json.load(open('last_update.json'))" || exit 1
-        
-        # 创建版本信息
-        cat > version.json << EOF
-        {
-          "build_time": "$(date -Iseconds)",
-          "commit_hash": "${{ github.sha }}",
-          "data_records": ${{ needs.update-data.outputs.record_count }},
-          "deploy_type": "auto-update"
-        }
-        EOF
-        
-        echo "✅ 网站构建完成"
-        
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: .
-        
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4

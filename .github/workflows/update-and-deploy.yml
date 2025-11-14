@@ -105,6 +105,20 @@ jobs:
         echo "data_updated=true" >> $GITHUB_OUTPUT
         echo "record_count=0" >> $GITHUB_OUTPUT
         
+    - name: Create last update info file
+      run: |
+        # 创建最后更新时间文件
+        cat > last_update.json << EOF
+        {
+          "last_updated": "$(date -Iseconds)",
+          "workflow_run_id": "${{ github.run_id }}",
+          "workflow_run_number": "${{ github.run_number }}",
+          "triggered_by": "${{ github.event_name }}",
+          "timestamp": "$(date +%s)"
+        }
+        EOF
+        echo "✅ 最后更新时间文件创建成功"
+        
     - name: Configure Git
       run: |
         git config --local user.email "action@github.com"
@@ -114,7 +128,7 @@ jobs:
       id: git-check
       run: |
         echo "检查文件变更..."
-        git add homework_data.json homework_data.xlsx
+        git add homework_data.json homework_data.xlsx last_update.json
         if git diff --staged --quiet; then
           echo "has_changes=false" >> $GITHUB_OUTPUT
           echo "没有检测到文件变更"
@@ -127,7 +141,10 @@ jobs:
       if: steps.git-check.outputs.has_changes == 'true'
       run: |
         echo "提交并推送变更..."
-        git commit -m "📚 自动更新家课数据 (${{ steps.crawler.outputs.record_count }} 条记录) [skip ci]"
+        # 获取当前日期并格式化
+        CURRENT_DATE=$(date +"%Y-%m-%d")
+        COMMIT_MESSAGE="📚 自动更新家课数据 (${{ steps.crawler.outputs.record_count }} 条记录) - 更新日期: $CURRENT_DATE [skip ci]"
+        git commit -m "$COMMIT_MESSAGE"
         git push
         
     - name: Create summary
@@ -202,9 +219,11 @@ jobs:
         [ -f "script.js" ] || exit 1
         [ -f "style.css" ] || exit 1
         [ -f "homework_data.json" ] || exit 1
+        [ -f "last_update.json" ] || exit 1
         
         # 验证JSON格式
         python -c "import json; json.load(open('homework_data.json'))" || exit 1
+        python -c "import json; json.load(open('last_update.json'))" || exit 1
         
         # 创建版本信息
         cat > version.json << EOF

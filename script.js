@@ -2,6 +2,7 @@ let homeworkData = [];
 
 document.addEventListener('DOMContentLoaded', function() {
     setTodayDate();
+    loadLastUpdateTime(); // 先加载最后更新时间
     loadHomeworkData();
     
     document.getElementById('issueDateFilter').addEventListener('change', applyFilters);
@@ -27,6 +28,69 @@ function formatDate(date) {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
+}
+
+function loadLastUpdateTime() {
+    const possiblePaths = [
+        'last_update.json',
+        './last_update.json',
+        'data/last_update.json',
+        './data/last_update.json'
+    ];
+    
+    function tryLoad(pathIndex) {
+        if (pathIndex >= possiblePaths.length) {
+            // 如果找不到最后更新文件，使用当前时间
+            const lastUpdate = document.getElementById('lastUpdate');
+            if (lastUpdate) {
+                lastUpdate.textContent = new Date().toLocaleString('zh-Hant');
+            }
+            return;
+        }
+        
+        const path = possiblePaths[pathIndex];
+        
+        fetch(path)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                updateLastUpdateDisplay(data);
+            })
+            .catch(error => {
+                tryLoad(pathIndex + 1);
+            });
+    }
+    
+    tryLoad(0);
+}
+
+function updateLastUpdateDisplay(updateData) {
+    const lastUpdate = document.getElementById('lastUpdate');
+    if (!lastUpdate) return;
+    
+    if (updateData && updateData.last_updated) {
+        try {
+            const updateDate = new Date(updateData.last_updated);
+            lastUpdate.textContent = updateDate.toLocaleString('zh-Hant', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+        } catch (e) {
+            // 如果日期解析失败，使用原始字符串
+            lastUpdate.textContent = updateData.last_updated;
+        }
+    } else {
+        lastUpdate.textContent = new Date().toLocaleString('zh-Hant');
+    }
 }
 
 function loadHomeworkData() {
@@ -125,16 +189,8 @@ function processHomeworkData(data) {
     const homeworkCards = document.getElementById('homeworkCards');
     if (homeworkCards) homeworkCards.style.display = 'flex';
     
-    updateLastUpdateTime();
     populateSubjectFilter();
     applyFilters();
-}
-
-function updateLastUpdateTime() {
-    const lastUpdate = document.getElementById('lastUpdate');
-    if (lastUpdate) {
-        lastUpdate.textContent = new Date().toLocaleString('zh-Hant');
-    }
 }
 
 function populateSubjectFilter() {

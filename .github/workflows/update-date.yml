@@ -12,7 +12,6 @@ on:
         default: false
         type: boolean
 
-# 设置全局权限
 permissions:
   contents: write
 
@@ -20,7 +19,6 @@ jobs:
   update-data:
     runs-on: ubuntu-latest
     
-    # 为这个job单独设置权限
     permissions:
       contents: write
     
@@ -28,7 +26,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        # 使用具有写入权限的token
         token: ${{ secrets.GITHUB_TOKEN }}
         fetch-depth: 0
         
@@ -41,11 +38,14 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests beautifulsoup4 pandas openpyxl colorama
+        if [ -f "requirements.txt" ]; then
+          pip install -r requirements.txt
+        else
+          pip install requests beautifulsoup4 pandas openpyxl colorama
+        fi
         
     - name: Create config file
       run: |
-        # 创建配置文件，使用GitHub Secrets中的凭据
         if [ -n "${{ secrets.PORTAL_USERNAME }}" ] && [ -n "${{ secrets.PORTAL_PASSWORD }}" ]; then
           cat > portal_config.json << EOF
         {
@@ -57,13 +57,22 @@ jobs:
           echo "✅ 配置文件创建成功"
         else
           echo "❌ GitHub Secrets中未设置PORTAL_USERNAME和PORTAL_PASSWORD"
-          exit 1
+          echo "将使用现有数据文件（如果有）"
         fi
         
     - name: Run homework crawler
       id: crawler
       run: |
         echo "开始运行家课数据爬虫..."
+        
+        # 检查爬虫脚本是否存在
+        if [ ! -f "homework_crawler.py" ]; then
+          echo "❌ homework_crawler.py 不存在"
+          echo "data_updated=false" >> $GITHUB_OUTPUT
+          exit 1
+        fi
+        
+        # 运行爬虫
         python homework_crawler.py
         
         # 检查是否生成了数据文件
@@ -71,7 +80,7 @@ jobs:
           echo "数据文件生成成功"
           
           # 验证JSON格式
-          if python -c "import json; json.load(open('homework_data.json'))"; then
+          if python -c "import json; json.load(open('homework_data.json'))" 2>/dev/null; then
             RECORD_COUNT=$(python -c "import json; data = json.load(open('homework_data.json')); print(len(data))")
             echo "记录数量: $RECORD_COUNT"
             echo "data_updated=true" >> $GITHUB_OUTPUT
@@ -85,25 +94,9 @@ jobs:
           echo "data_updated=false" >> $GITHUB_OUTPUT
         fi
         
-    - name: Debug - Check files
-      if: steps.crawler.outputs.data_updated == 'false'
-      run: |
-        echo "调试信息:"
-        ls -la
-        [ -f "portal_config.json" ] && echo "✅ portal_config.json 存在" || echo "❌ portal_config.json 不存在"
-        [ -f "homework_data.json" ] && echo "✅ homework_data.json 存在" || echo "❌ homework_data.json 不存在"
-        
-    - name: Create empty data file if failed
-      if: steps.crawler.outputs.data_updated == 'false'
-      run: |
-        echo "创建空的homework_data.json文件..."
-        echo "[]" > homework_data.json
-        echo "data_updated=true" >> $GITHUB_OUTPUT
-        echo "record_count=0" >> $GITHUB_OUTPUT
-        
     - name: Create last update info file
+      if: steps.crawler.outputs.data_updated == 'true'
       run: |
-        # 创建最后更新时间文件
         cat > last_update.json << EOF
         {
           "last_updated": "$(date -Iseconds)",
@@ -116,15 +109,17 @@ jobs:
         echo "✅ 最后更新时间文件创建成功"
         
     - name: Configure Git
+      if: steps.crawler.outputs.data_updated == 'true'
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         
     - name: Check for changes
       id: git-check
+      if: steps.crawler.outputs.data_updated == 'true'
       run: |
         echo "检查文件变更..."
-        git add homework_data.json homework_data.xlsx last_update.json
+        git add homework_data.json homework_data.xlsx last_update.json portal_config.json
         if git diff --staged --quiet; then
           echo "has_changes=false" >> $GITHUB_OUTPUT
           echo "没有检测到文件变更"
@@ -137,14 +132,10 @@ jobs:
       if: steps.git-check.outputs.has_changes == 'true'
       run: |
         echo "提交并推送变更..."
-        # 获取当前日期并格式化
         CURRENT_DATE=$(date +"%Y-%m-%d")
-        COMMIT_MESSAGE="📚 自动更新家课数据 (${{ steps.crawler.outputs.record_count }} 条记录) - 更新日期: $CURRENT_DATE [skip ci]"
+        COMMIT_MESSAGE="📚 自动更新家课数据 (${{ steps.crawler.outputs.record_count }} 条记录) - $CURRENT_DATE"
         git commit -m "$COMMIT_MESSAGE"
         git push
-        
-        # 触发部署工作流
-        echo "触发部署工作流..."
         
     - name: Trigger deployment
       if: steps.git-check.outputs.has_changes == 'true'
@@ -155,7 +146,7 @@ jobs:
             await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow_id: 'deploy-to-pages.yml',
+              workflow_id: 'deploy.yml',
               ref: 'main'
             });
             console.log('✅ 已成功触发部署工作流');
@@ -189,8 +180,4 @@ jobs:
         else
           echo "❌ **状态:** 数据更新失败" >> $GITHUB_STEP_SUMMARY
           echo "⚠️ 请检查凭据配置和网络连接" >> $GITHUB_STEP_SUMMARY
-          echo "🔍 **调试信息:**" >> $GITHUB_STEP_SUMMARY
-          echo "- 确保 PORTAL_USERNAME 和 PORTAL_PASSWORD 已在 GitHub Secrets 中设置" >> $GITHUB_STEP_SUMMARY
-          echo "- 检查门户网站是否可以正常访问" >> $GITHUB_STEP_SUMMARY
-          echo "- 验证登录凭据是否正确" >> $GITHUB_STEP_SUMMARY
         fi

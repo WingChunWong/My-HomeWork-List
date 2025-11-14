@@ -1357,5 +1357,41 @@
     "subject": "普話 -- PTH",
     "homework_name": "聆聽測驗二(4/11)交",
     "remarks": ""
+  },
+  {
+    "id": "74332",
+    "issue_date": "2025-11-14",
+    "due_date": "2025-11-15",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "Sentence Pattern WS",
+    "remarks": ""
+  },
+  {
+    "id": "74331",
+    "issue_date": "2025-11-14",
+    "due_date": "2025-11-15",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "Raz-Kids",
+    "remarks": "Dead Line 17/12"
+  },
+  {
+    "id": "74330",
+    "issue_date": "2025-11-14",
+    "due_date": "2025-11-15",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "Solid Memory",
+    "remarks": "1 Exercise 1 Day"
+  },
+  {
+    "id": "74329",
+    "issue_date": "2025-11-14",
+    "due_date": "2025-11-15",
+    "class_group": "全班",
+    "subject": "數學 -- MATH",
+    "homework_name": "CW32",
+    "remarks": ""
   }
 ]

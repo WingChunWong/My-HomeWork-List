@@ -1393,5 +1393,41 @@
     "subject": "數學 -- MATH",
     "homework_name": "CW32",
     "remarks": ""
+  },
+  {
+    "id": "74349",
+    "issue_date": "2025-11-14",
+    "due_date": "2025-11-17",
+    "class_group": "全班",
+    "subject": "中文 -- CHIN",
+    "homework_name": "話劇",
+    "remarks": ""
+  },
+  {
+    "id": "74348",
+    "issue_date": "2025-11-14",
+    "due_date": "2025-11-17",
+    "class_group": "全班",
+    "subject": "中文 -- CHIN",
+    "homework_name": "步步升",
+    "remarks": ""
+  },
+  {
+    "id": "74347",
+    "issue_date": "2025-11-14",
+    "due_date": "2025-11-17",
+    "class_group": "全班",
+    "subject": "公經社 -- CES",
+    "homework_name": "評分功課",
+    "remarks": "連file"
+  },
+  {
+    "id": "74345",
+    "issue_date": "2025-11-14",
+    "due_date": "2025-11-25",
+    "class_group": "全班",
+    "subject": "公經社 -- CES",
+    "homework_name": "級測",
+    "remarks": "放學後（40mins）"
   }
 ]

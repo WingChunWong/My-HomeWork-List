@@ -1,0 +1,530 @@
+:root {
+    --primary-color: #4361ee;
+    --secondary-color: #3a0ca3;
+    --success-color: #4cc9f0;
+    --warning-color: #f72585;
+    --danger-color: #7209b7;
+    --light-bg: #f0f2f5;
+    --card-bg: #ffffff;
+    --text-primary: #000000;
+    --text-secondary: #464b51;
+    --border-color: #e2e8f0;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --glass-bg: rgba(255, 255, 255, 0.15);
+    --glass-border: rgba(255, 255, 255, 0.18);
+}
+
+body {
+    background: linear-gradient(135deg, #4361ee 25%,#3a0ca3 50%, #f72585 75%, #7209b7 100%);
+    font-family: system-ui;
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+    background-attachment: fixed;
+}
+
+.main-navbar {
+    background: linear-gradient(135deg, rgba(67, 97, 238, 0.6) 0%, rgba(58, 12, 163, 0.6) 100%);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: var(--shadow);
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand i {
+    margin-right: 0.5rem;
+}
+
+.card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px) saturate(150%);
+    -webkit-backdrop-filter: blur(15px) saturate(150%);
+    border: 1px solid var(--glass-border);
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* 篩選器卡片玻璃效果增強 */
+.filter-card {
+    background: rgba(255, 255, 255, 0.18) !important;
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 16px;
+}
+
+.filter-card .card-header {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.filter-card .card-header h5 {
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.stat-card {
+    height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    color: white;
+    min-height: 120px;
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stat-card .card-body {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    margin-right: 1rem;
+    opacity: 0.9;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* 今日家課數圖標顏色 */
+.stat-item.stat-today-issued .stat-icon i.bi-journal-plus {
+    color: rgba(76, 201, 240, 0.9); /* 使用success-color的藍色 */
+}
+
+/* 今天到期圖標顏色 */
+.stat-item.stat-today-due .stat-icon i.bi-clock {
+    color: rgba(255, 205, 86, 0.9); /* 保持黃色不變 */
+}
+
+.stat-content {
+    flex: 1;
+}
+
+.stat-title {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* 統計信息容器卡片 - 修改後版本 */
+.stat-container-card {
+    background: rgba(255, 255, 255, 0.12) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+}
+
+.stat-items-container {
+    height: 100%;
+    margin: 0;
+}
+
+.stat-item {
+    padding: 1.5rem 0.5rem;
+    position: relative;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    isolation: isolate;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.stat-item .stat-content {
+    padding: 0.5rem;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 确保内容水平居中 */
+    justify-content: center; /* 确保内容垂直居中 */
+}
+
+.stat-item .stat-icon {
+    font-size: 2rem;
+    margin: 0 0 0.5rem 0; /* 只保留底部间距 */
+    opacity: 0.9;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    color: rgba(255, 255, 255, 0.9);
+    display: inline-flex; /* 确保图标本身垂直对齐 */
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-item .stat-title {
+    font-size: 0.8rem;
+    margin: 0 0 0.25rem 0; /* 减少标题底部间距 */
+    opacity: 0.9;
+    font-weight: 500;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    color: rgba(255, 255, 255, 0.9);
+    width: 100%;
+    text-align: center;
+}
+
+.stat-item .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0; /* 移除默认margin */
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    color: white;
+    width: 100%;
+    text-align: center;
+}
+
+/* 移除彩色背景，保持统一的毛玻璃效果 */
+.stat-item::before {
+    display: none; /* 移除彩色背景 */
+}
+
+/* 分隔線 - 使用更細的玻璃效果分隔線 */
+.stat-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 15%;
+    right: 0;
+    height: 70%;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(2px);
+    box-shadow: 
+        1px 0 2px rgba(255, 255, 255, 0.2),
+        -1px 0 2px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.stat-item .stat-content {
+    padding: 0.5rem;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-item .stat-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.stat-item .stat-title {
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+    font-weight: 500;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    color: rgba(255, 255, 255, 0.9);
+    width: 100%;
+    text-align: center;
+}
+
+.stat-item .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    color: white;
+    width: 100%;
+    text-align: center;
+}
+
+/* 表格容器優化 - 保持毛玻璃效果（修改後） */
+.homework-table-wrapper {
+    border-radius: 0 0 16px 16px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.homework-table-container {
+    overflow-x: auto;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    -webkit-overflow-scrolling: touch; /* 平滑滾動 */
+    max-height: 60vh; /* 限制最大高度 */
+    border-radius: 0 0 16px 16px; /* 確保底部圓角 */
+}
+
+/* 當沒有數據時，保持圓角 */
+.homework-table-wrapper:has(#noData[style*="display: block"]) .homework-table-container {
+    border-radius: 16px; /* 沒有數據時全部圓角 */
+}
+
+.homework-table {
+    min-width: 700px; /* 確保表格有最小寬度以便在移動設備上滑動 */
+    margin-bottom: 0;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* 表格滾動條樣式 - 玻璃效果（修改後） */
+.homework-table-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.homework-table-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0 0 16px 16px; /* 滾動條軌道圓角 */
+}
+
+.homework-table-container::-webkit-scrollbar-thumb {
+    background: rgba(67, 97, 238, 0.5);
+    border-radius: 4px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+.homework-table-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(67, 97, 238, 0.7);
+}
+
+.homework-table th {
+    background-color: rgba(67, 97, 238, 0.1);
+    padding: 1rem;
+    font-weight: 600;
+    text-align: left;
+    border-bottom: 2px solid rgba(67, 97, 238, 0.2);
+    color: var(--text-primary);
+}
+
+.homework-table td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(67, 97, 238, 0.1);
+    vertical-align: top;
+
+}
+
+.homework-table tr:hover {
+    background-color: rgba(67, 97, 238, 0.05);
+}
+
+.homework-table tr.overdue {
+    border-left: 4px solid #f5576c;
+}
+
+.homework-table tr.today {
+    border-left: 4px solid #f093fb;
+}
+
+.homework-table tr.normal {
+    border-left: 4px solid #4361ee;
+}
+
+.homework-table td:last-child {
+    border-right: none;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.status-badge.overdue {
+    background-color: rgba(245, 87, 108, 0.15);
+    color: #d63384;
+}
+
+.status-badge.today {
+    background-color: rgba(240, 147, 251, 0.15);
+    color: #9c36b5;
+}
+
+.status-badge.normal {
+    background-color: rgba(67, 97, 238, 0.15);
+    color: #4361ee;
+}
+
+.homework-remarks {
+    background-color: rgba(67, 97, 238, 0.08);
+    padding: 0.5rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(67, 97, 238, 0.1);
+    max-width: 300px;
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 表單控件玻璃效果（修改後） */
+.form-control, .form-select {
+    background: rgba(255, 255, 255, 0.75) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #333;
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+}
+
+.form-label {
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state {
+    padding: 3rem 1rem;
+    text-align: center;
+    color: var(--text-secondary);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.15);
+    margin: 1rem;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: rgba(203, 213, 224, 0.7);
+}
+
+.empty-state h4 {
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+}
+
+/* 徽章樣式（修改後） */
+.custom-badge {
+    background: rgba(0, 0, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+#uploadArea .alert {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(15px) saturate(150%);
+    -webkit-backdrop-filter: blur(15px) saturate(150%);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+}
+
+/* 卡片標題居中 - 玻璃效果（修改後） */
+.card-header {
+    background: rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px 16px 0 0 !important; /* 確保頂部圓角 */
+}
+
+.card-header h5 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    margin: 0;
+    width: 100%;
+    text-align: center;
+}
+
+#resetFilter {
+    /* 按鈕邊框和文字使用主題紫色系 */
+    color: rgba(58, 12, 163, 0.9);
+    border-color: rgba(58, 12, 163, 0.5);
+    background: rgba(255, 255, 255, 0.6);
+}
+
+/* 懸停狀態強化 */
+#resetFilter:hover {
+    color: rgba(58, 12, 163, 1);
+    border-color: rgba(58, 12, 163, 0.8);
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 8px rgba(58, 12, 163, 0.2);
+}
+
+/* 點擊狀態樣式 */
+#resetFilter:active,
+#resetFilter:focus {
+    color: rgba(58, 12, 163, 1);
+    border-color: rgba(58, 12, 163, 0.8);
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 0 0.2rem rgba(58, 12, 163, 0.25);
+}

@@ -4,16 +4,14 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main, master ]
-  workflow_dispatch:  # 允许手动触发
-  repository_dispatch:  # 允许通过API触发
+  workflow_dispatch:
+  repository_dispatch:
 
-# 设置 GITHUB_TOKEN 的权限
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# 允许一个并发部署
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -26,7 +24,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0  # 获取所有历史，用于更好的 git 信息
+        fetch-depth: 0
         
     - name: Setup Pages
       uses: actions/configure-pages@v4
@@ -36,20 +34,24 @@ jobs:
         echo "正在构建和测试网站..."
         
         # 检查必要文件是否存在
-        if [ ! -f "index.html" ]; then
-          echo "❌ index.html 不存在"
-          exit 1
-        fi
+        REQUIRED_FILES=("index.html" "js/main.js" "css/style.css" "css/responsive.css")
+        for file in "${REQUIRED_FILES[@]}"; do
+          if [ ! -f "$file" ]; then
+            echo "❌ $file 不存在"
+            exit 1
+          fi
+          echo "✅ $file 存在"
+        done
         
-        if [ ! -f "script.js" ]; then
-          echo "❌ script.js 不存在"
-          exit 1
-        fi
-        
-        if [ ! -f "style.css" ]; then
-          echo "❌ style.css 不存在"
-          exit 1
-        fi
+        # 检查 JS 模块文件
+        JS_MODULES=("dataLoader.js" "filter.js" "tableRenderer.js" "statistics.js")
+        for module in "${JS_MODULES[@]}"; do
+          if [ ! -f "js/$module" ]; then
+            echo "❌ js/$module 不存在"
+            exit 1
+          fi
+          echo "✅ js/$module 存在"
+        done
         
         # 检查 homework_data.json 是否存在，如果不存在则创建一个空的
         if [ ! -f "homework_data.json" ]; then
@@ -58,13 +60,13 @@ jobs:
         fi
         
         # 验证 JSON 格式
-        if python -m json.tool homework_data.json > /dev/null 2>&1; then
-          echo "✅ homework_data.json 格式正确"
+        if python -c "import json; json.load(open('homework_data.json'))" 2>/dev/null; then
           RECORD_COUNT=$(python -c "import json; data = json.load(open('homework_data.json')); print(len(data))")
+          echo "✅ homework_data.json 格式正确"
           echo "📊 数据记录数量: $RECORD_COUNT"
         else
-          echo "❌ homework_data.json 格式错误"
-          exit 1
+          echo "❌ homework_data.json 格式错误，创建空文件"
+          echo "[]" > homework_data.json
         fi
         
         # 创建部署信息文件

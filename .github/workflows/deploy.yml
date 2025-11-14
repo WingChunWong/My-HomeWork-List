@@ -35,20 +35,19 @@ jobs:
       run: |
         echo "正在构建和测试网站..."
         
-        # 检查必要文件是否存在 - 如果缺失则构建失败
-        echo "检查必要文件..."
+        # 检查必要文件是否存在
         if [ ! -f "index.html" ]; then
-          echo "❌ index.html 不存在 - 构建失败"
+          echo "❌ index.html 不存在"
           exit 1
         fi
         
         if [ ! -f "script.js" ]; then
-          echo "❌ script.js 不存在 - 构建失败"
+          echo "❌ script.js 不存在"
           exit 1
         fi
         
         if [ ! -f "style.css" ]; then
-          echo "❌ style.css 不存在 - 构建失败"
+          echo "❌ style.css 不存在"
           exit 1
         fi
         
@@ -58,59 +57,25 @@ jobs:
           echo "[]" > homework_data.json
         fi
         
-        # 检查 last_update.json 是否存在，如果不存在则创建一个
-        if [ ! -f "last_update.json" ]; then
-          echo "⚠️ last_update.json 不存在，创建默认文件"
-          cat > last_update.json << EOF
-{
-  "last_updated": "$(date -Iseconds)",
-  "workflow_run_id": "manual-build",
-  "workflow_run_number": "1",
-  "triggered_by": "manual",
-  "timestamp": "$(date +%s)"
-}
-EOF
-        fi
-        
-        # 验证 JSON 格式，如果失败则创建有效的 JSON
-        echo "验证 JSON 文件格式..."
-        if ! python -c "import json; json.load(open('homework_data.json'))" 2>/dev/null; then
-          echo "❌ homework_data.json 格式错误，修复为有效 JSON"
-          echo "[]" > homework_data.json
-        fi
-        
-        if ! python -c "import json; json.load(open('last_update.json'))" 2>/dev/null; then
-          echo "❌ last_update.json 格式错误，修复为有效 JSON"
-          cat > last_update.json << EOF
-{
-  "last_updated": "$(date -Iseconds)",
-  "workflow_run_id": "manual-build",
-  "workflow_run_number": "1",
-  "triggered_by": "manual",
-  "timestamp": "$(date +%s)"
-}
-EOF
-        fi
-        
-        # 验证文件是否现在有效
-        echo "最终验证..."
-        if [ -f "index.html" ] && [ -f "script.js" ] && [ -f "style.css" ] && [ -f "homework_data.json" ] && [ -f "last_update.json" ]; then
-          echo "✅ 所有必要文件都存在"
+        # 验证 JSON 格式
+        if python -m json.tool homework_data.json > /dev/null 2>&1; then
+          echo "✅ homework_data.json 格式正确"
+          RECORD_COUNT=$(python -c "import json; data = json.load(open('homework_data.json')); print(len(data))")
+          echo "📊 数据记录数量: $RECORD_COUNT"
         else
-          echo "❌ 仍有文件缺失"
-          ls -la
+          echo "❌ homework_data.json 格式错误"
           exit 1
         fi
         
         # 创建部署信息文件
         cat > deploy-info.json << EOF
-{
-  "build_time": "$(date -Iseconds)",
-  "commit_hash": "${{ github.sha }}",
-  "data_records": $(python -c "import json; data = json.load(open('homework_data.json')); print(len(data))"),
-  "deploy_type": "${{ github.event_name }}"
-}
-EOF
+        {
+          "build_time": "$(date -Iseconds)",
+          "commit_hash": "${{ github.sha }}",
+          "data_records": $RECORD_COUNT,
+          "deploy_type": "${{ github.event_name }}"
+        }
+        EOF
         
         echo "✅ 网站构建和测试完成"
         

@@ -1,4 +1,4 @@
-# .github/workflows/deploy-to-pages.yml
+# .github/workflows/deploy.yml
 name: Deploy to GitHub Pages
 
 on:
@@ -35,22 +35,21 @@ jobs:
       run: |
         echo "正在构建和测试网站..."
         
-        # 检查必要文件是否存在
+        # 检查必要文件是否存在 - 如果缺失则构建失败
         echo "检查必要文件..."
         if [ ! -f "index.html" ]; then
-          echo "❌ index.html 不存在"
-          echo "创建基本的 index.html 文件..."
-          cat > index.html << 'EOF'
+          echo "❌ index.html 不存在 - 构建失败"
+          exit 1
         fi
         
         if [ ! -f "script.js" ]; then
-          echo "❌ script.js 不存在，创建空文件"
-          echo "// 脚本文件" > script.js
+          echo "❌ script.js 不存在 - 构建失败"
+          exit 1
         fi
         
         if [ ! -f "style.css" ]; then
-          echo "❌ style.css 不存在，创建空文件"
-          echo "/* 样式文件 */" > style.css
+          echo "❌ style.css 不存在 - 构建失败"
+          exit 1
         fi
         
         # 检查 homework_data.json 是否存在，如果不存在则创建一个空的

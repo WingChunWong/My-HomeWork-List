@@ -16,7 +16,7 @@ jobs:
       uses: actions/checkout@v4
       
     - name: Setup Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5  # 升级到最新版
       with:
         python-version: '3.9'
         cache: 'pip'
@@ -27,7 +27,7 @@ jobs:
         if [ -f "requirements.txt" ]; then
           pip install -r requirements.txt
         else
-          pip install requests beautifulsoup4 pandas openpyxl colorama
+          pip install requests==2.31.0 beautifulsoup4==4.12.2 pandas==2.1.4 openpyxl==3.1.2 colorama==0.4.6
         fi
         
     - name: Check syntax and imports
@@ -40,22 +40,22 @@ jobs:
         echo "检查项目文件结构..."
         
         # 检查主要文件
-        [ -f "homework_crawler.py" ] && echo "✅ homework_crawler.py 存在" || echo "❌ homework_crawler.py 不存在"
-        [ -f "index.html" ] && echo "✅ index.html 存在" || echo "❌ index.html 不存在"
-        [ -f "css/style.css" ] && echo "✅ css/style.css 存在" || echo "❌ css/style.css 不存在"
-        [ -f "css/responsive.css" ] && echo "✅ css/responsive.css 存在" || echo "❌ css/responsive.css 不存在"
+        [ -f "homework_crawler.py" ] && echo "✅ homework_crawler.py 存在" || (echo "❌ homework_crawler.py 不存在" && exit 1)
+        [ -f "index.html" ] && echo "✅ index.html 存在" || (echo "❌ index.html 不存在" && exit 1)
+        [ -f "css/style.css" ] && echo "✅ css/style.css 存在" || (echo "❌ css/style.css 不存在" && exit 1)
+        [ -f "css/responsive.css" ] && echo "✅ css/responsive.css 存在" || (echo "❌ css/responsive.css 不存在" && exit 1)
         
         # 检查 JS 文件
         JS_FILES=("main.js" "dataLoader.js" "filter.js" "tableRenderer.js" "statistics.js")
         for js_file in "${JS_FILES[@]}"; do
-          [ -f "js/$js_file" ] && echo "✅ js/$js_file 存在" || echo "❌ js/$js_file 不存在"
+          [ -f "js/$js_file" ] && echo "✅ js/$js_file 存在" || (echo "❌ js/$js_file 不存在" && exit 1)
         done
         
     - name: Test crawler functionality
       run: |
         echo "测试爬虫功能..."
-        # 测试爬虫的帮助功能
-        python homework_crawler.py --help && echo "✅ 帮助命令正常" || echo "⚠️ 帮助命令异常"
+        # 测试爬虫的帮助功能（无凭据模式）
+        python homework_crawler.py --help && echo "✅ 帮助命令正常" || (echo "⚠️ 帮助命令异常" && exit 1)
         
     - name: Create test report
       if: always()

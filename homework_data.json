@@ -1053,21 +1053,21 @@
     "remarks": ""
   },
   {
-    "id": "73926",
-    "issue_date": "2025-10-27",
-    "due_date": "2025-10-27",
-    "class_group": "全班",
-    "subject": "公經社 -- CES",
-    "homework_name": "L7 WS 連File",
-    "remarks": ""
-  },
-  {
     "id": "73925",
     "issue_date": "2025-10-27",
     "due_date": "2025-10-27",
     "class_group": "全班",
     "subject": "中文 -- CHIN",
     "homework_name": "習作題工作紙",
+    "remarks": ""
+  },
+  {
+    "id": "73926",
+    "issue_date": "2025-10-27",
+    "due_date": "2025-10-27",
+    "class_group": "全班",
+    "subject": "公經社 -- CES",
+    "homework_name": "L7 WS 連File",
     "remarks": ""
   },
   {
@@ -1359,48 +1359,12 @@
     "remarks": ""
   },
   {
-    "id": "74332",
-    "issue_date": "2025-11-14",
-    "due_date": "2025-11-15",
-    "class_group": "全班",
-    "subject": "英文 -- ENG",
-    "homework_name": "Sentence Pattern WS",
-    "remarks": ""
-  },
-  {
-    "id": "74331",
-    "issue_date": "2025-11-14",
-    "due_date": "2025-11-15",
-    "class_group": "全班",
-    "subject": "英文 -- ENG",
-    "homework_name": "Raz-Kids",
-    "remarks": "Dead Line 17/12"
-  },
-  {
-    "id": "74330",
-    "issue_date": "2025-11-14",
-    "due_date": "2025-11-15",
-    "class_group": "全班",
-    "subject": "英文 -- ENG",
-    "homework_name": "Solid Memory",
-    "remarks": "1 Exercise 1 Day"
-  },
-  {
-    "id": "74329",
-    "issue_date": "2025-11-14",
-    "due_date": "2025-11-15",
-    "class_group": "全班",
-    "subject": "數學 -- MATH",
-    "homework_name": "CW32",
-    "remarks": ""
-  },
-  {
     "id": "74349",
     "issue_date": "2025-11-14",
     "due_date": "2025-11-17",
     "class_group": "全班",
     "subject": "中文 -- CHIN",
-    "homework_name": "話劇",
+    "homework_name": "木蘭辭話劇",
     "remarks": ""
   },
   {
@@ -1409,7 +1373,7 @@
     "due_date": "2025-11-17",
     "class_group": "全班",
     "subject": "中文 -- CHIN",
-    "homework_name": "步步升",
+    "homework_name": "步步升3",
     "remarks": ""
   },
   {
@@ -1429,5 +1393,41 @@
     "subject": "公經社 -- CES",
     "homework_name": "級測",
     "remarks": "放學後（40mins）"
+  },
+  {
+    "id": "74332",
+    "issue_date": "2025-11-14",
+    "due_date": "2025-11-17",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "Sentence Pattern WS",
+    "remarks": ""
+  },
+  {
+    "id": "74331",
+    "issue_date": "2025-11-14",
+    "due_date": "2025-12-17",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "Raz-Kids",
+    "remarks": "Dead Line 17/12"
+  },
+  {
+    "id": "74330",
+    "issue_date": "2025-11-14",
+    "due_date": "2025-11-17",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "Solid Memory",
+    "remarks": "1 Exercise 1 Day"
+  },
+  {
+    "id": "74329",
+    "issue_date": "2025-11-14",
+    "due_date": "2025-11-17",
+    "class_group": "全班",
+    "subject": "數學 -- MATH",
+    "homework_name": "CW32",
+    "remarks": ""
   }
 ]

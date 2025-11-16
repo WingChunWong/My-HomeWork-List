@@ -1,34 +1,42 @@
 # .github/workflows/deploy.yml
+# 部署到GitHub Pages工作流
+
 name: Deploy to GitHub Pages
 
+# 触发条件
 on:
   push:
-    branches: [ main, master ]
-  workflow_dispatch:
-  repository_dispatch:
+    branches: [ main, master ]  # 推送到main或master分支时触发
+  workflow_dispatch:  # 手动触发
+  repository_dispatch:  # 通过API触发
 
+# 权限设置
 permissions:
   contents: read
-  pages: write
+  pages: write  # 写入GitHub Pages
   id-token: write
 
+# 并发控制
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: false  # 不取消正在进行的部署
 
 jobs:
   build:
     runs-on: ubuntu-latest
     
     steps:
+    # 步骤1: 检出代码
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
         
+    # 步骤2: 配置Pages环境
     - name: Setup Pages
-      uses: actions/configure-pages@v5  # 升级到最新版
+      uses: actions/configure-pages@v4
       
+    # 步骤3: 构建和测试网站
     - name: Build and test website
       run: |
         echo "正在构建和测试网站..."
@@ -81,21 +89,24 @@ jobs:
         
         echo "✅ 网站构建和测试完成"
         
+    # 步骤4: 上传Pages制品
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: .
+        path: .  # 上传整个当前目录
         name: github-pages
 
+  # 部署任务（依赖于构建任务）
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}  # 部署后的页面URL
     
     runs-on: ubuntu-latest
-    needs: build
+    needs: build  # 依赖build任务
     
     steps:
+    # 步骤5: 部署到GitHub Pages
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v4

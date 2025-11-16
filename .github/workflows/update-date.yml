@@ -1,10 +1,14 @@
 # .github/workflows/update-data.yml
-name: Update Homework Data
+# 家课数据自动更新工作流
 
+name: Update Homework Data  # 工作流名称
+
+# 触发条件
 on:
   schedule:
-    - cron: '0 9 * * *'  # 每天 UTC 09:00 (香港时间 17:00)
-  workflow_dispatch:
+    # 定时触发：每天 UTC 09:00 (香港时间 17:00)
+    - cron: '0 9 * * *'  
+  workflow_dispatch:  # 手动触发
     inputs:
       force_full_update:
         description: '强制完整更新'
@@ -12,42 +16,63 @@ on:
         default: false
         type: boolean
 
+# 权限设置
 permissions:
-  contents: write
-  actions: write  # 新增：允许触发其他工作流
+  contents: write  # 允许写入仓库内容
 
 jobs:
   update-data:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # 使用最新版Ubuntu运行器
+    
+    permissions:
+      contents: write
     
     steps:
+    # 步骤1: 检出代码仓库
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        fetch-depth: 0
+        fetch-depth: 0  # 获取完整git历史
         
+    # 步骤2: 设置Python环境
     - name: Setup Python
-      uses: actions/setup-python@v5  # 升级到最新版
+      uses: actions/setup-python@v4
       with:
         python-version: '3.9'
-        cache: 'pip'
+        cache: 'pip'  # 启用pip缓存加速安装
         
+    # 步骤3: 安装依赖
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
+        # 如果有requirements.txt则使用，否则安装指定包
         if [ -f "requirements.txt" ]; then
           pip install -r requirements.txt
         else
-          # 明确指定依赖版本，避免兼容性问题
-          pip install requests==2.31.0 beautifulsoup4==4.12.2 pandas==2.1.4 openpyxl==3.1.2 colorama==0.4.6
+          pip install requests beautifulsoup4 pandas openpyxl colorama
         fi
         
+    # 步骤4: 创建配置文件（从GitHub Secrets读取凭据）
+    - name: Create config file
+      run: |
+        if [ -n "${{ secrets.PORTAL_USERNAME }}" ] && [ -n "${{ secrets.PORTAL_PASSWORD }}" ]; then
+          cat > portal_config.json << EOF
+        {
+          "username": "${{ secrets.PORTAL_USERNAME }}",
+          "password": "${{ secrets.PORTAL_PASSWORD }}",
+          "last_updated": "$(date -Iseconds)"
+        }
+        EOF
+          echo "✅ 配置文件创建成功"
+        else
+          echo "❌ GitHub Secrets中未设置PORTAL_USERNAME和PORTAL_PASSWORD"
+          echo "将使用现有数据文件（如果有）"
+        fi
+        
+    # 步骤5: 运行家课爬虫
     - name: Run homework crawler
-      id: crawler
-      env:  # 修复：显式传递环境变量
-        PORTAL_USERNAME: ${{ secrets.PORTAL_USERNAME }}
-        PORTAL_PASSWORD: ${{ secrets.PORTAL_PASSWORD }}
+      id: crawler  # 设置步骤ID用于后续引用输出
       run: |
         echo "开始运行家课数据爬虫..."
         
@@ -58,8 +83,18 @@ jobs:
           exit 1
         fi
         
-
-        python homework_crawler.py
+        # 构建运行命令（根据输入参数决定更新模式）
+        if [ "${{ github.event.inputs.force_full_update }}" = "true" ]; then
+          echo "🚀 强制完整更新模式"
+          CRAWLER_CMD="python homework_crawler.py -ffu"
+        else
+          echo "📅 日常增量更新模式"
+          CRAWLER_CMD="python homework_crawler.py"
+        fi
+        
+        # 运行爬虫
+        echo "执行命令: $CRAWLER_CMD"
+        $CRAWLER_CMD
         
         # 检查是否生成了数据文件
         if [ -f "homework_data.json" ]; then
@@ -69,6 +104,7 @@ jobs:
           if python -c "import json; json.load(open('homework_data.json'))" 2>/dev/null; then
             RECORD_COUNT=$(python -c "import json; data = json.load(open('homework_data.json')); print(len(data))")
             echo "记录数量: $RECORD_COUNT"
+            # 设置步骤输出，供后续步骤使用
             echo "data_updated=true" >> $GITHUB_OUTPUT
             echo "record_count=$RECORD_COUNT" >> $GITHUB_OUTPUT
           else
@@ -80,8 +116,9 @@ jobs:
           echo "data_updated=false" >> $GITHUB_OUTPUT
         fi
         
+    # 步骤6: 创建最后更新信息文件
     - name: Create last update info file
-      if: steps.crawler.outputs.data_updated == 'true'
+      if: steps.crawler.outputs.data_updated == 'true'  # 条件执行：仅当数据更新成功时
       run: |
         cat > last_update.json << EOF
         {
@@ -89,25 +126,25 @@ jobs:
           "workflow_run_id": "${{ github.run_id }}",
           "workflow_run_number": "${{ github.run_number }}",
           "triggered_by": "${{ github.event_name }}",
-          "timestamp": "$(date +%s)",
-          "record_count": ${{ steps.crawler.outputs.record_count }}
+          "timestamp": "$(date +%s)"
         }
         EOF
         echo "✅ 最后更新时间文件创建成功"
         
+    # 步骤7: 配置Git用户信息
     - name: Configure Git
       if: steps.crawler.outputs.data_updated == 'true'
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         
+    # 步骤8: 检查文件变更
     - name: Check for changes
       id: git-check
       if: steps.crawler.outputs.data_updated == 'true'
       run: |
         echo "检查文件变更..."
-        git add homework_data.json homework_data.xlsx last_update.json
-        # 移除 portal_config.json 避免意外提交凭据
+        git add homework_data.json homework_data.xlsx last_update.json portal_config.json
         if git diff --staged --quiet; then
           echo "has_changes=false" >> $GITHUB_OUTPUT
           echo "没有检测到文件变更"
@@ -116,6 +153,7 @@ jobs:
           echo "检测到文件变更"
         fi
         
+    # 步骤9: 提交并推送变更
     - name: Commit and push changes
       if: steps.git-check.outputs.has_changes == 'true'
       run: |
@@ -125,9 +163,10 @@ jobs:
         git commit -m "$COMMIT_MESSAGE"
         git push
         
+    # 步骤10: 触发部署工作流
     - name: Trigger deployment
       if: steps.git-check.outputs.has_changes == 'true'
-      uses: actions/github-script@v7  # 升级到最新版
+      uses: actions/github-script@v6
       with:
         script: |
           try {
@@ -143,12 +182,21 @@ jobs:
             console.log('错误信息:', error.message);
           }
         
+    # 步骤11: 创建运行总结（始终执行）
     - name: Create summary
       if: always()
       run: |
         echo "# 家课数据更新报告" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "**运行时间:** $(date)" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # 显示更新模式
+        if [ "${{ github.event.inputs.force_full_update }}" = "true" ]; then
+          echo "🚀 **更新模式:** 强制完整更新" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "📅 **更新模式:** 日常增量更新" >> $GITHUB_STEP_SUMMARY
+        fi
         echo "" >> $GITHUB_STEP_SUMMARY
         
         if [ "${{ steps.crawler.outputs.data_updated }}" = "true" ]; then

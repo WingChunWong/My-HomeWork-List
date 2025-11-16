@@ -42,7 +42,7 @@ function loadLastUpdateTime() {
         
         const path = possiblePaths[pathIndex];
         
-        fetch(path)
+        fetch(path, { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -105,7 +105,7 @@ function loadHomeworkData() {
         
         const path = possiblePaths[pathIndex];
         
-        fetch(path)
+        fetch(path, { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);

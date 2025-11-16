@@ -14,13 +14,11 @@ on:
 
 permissions:
   contents: write
+  actions: write  # 新增：允许触发其他工作流
 
 jobs:
   update-data:
     runs-on: ubuntu-latest
-    
-    permissions:
-      contents: write
     
     steps:
     - name: Checkout repository
@@ -30,7 +28,7 @@ jobs:
         fetch-depth: 0
         
     - name: Setup Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5  # 升级到最新版
       with:
         python-version: '3.9'
         cache: 'pip'
@@ -41,11 +39,15 @@ jobs:
         if [ -f "requirements.txt" ]; then
           pip install -r requirements.txt
         else
-          pip install requests beautifulsoup4 pandas openpyxl colorama
+          # 明确指定依赖版本，避免兼容性问题
+          pip install requests==2.31.0 beautifulsoup4==4.12.2 pandas==2.1.4 openpyxl==3.1.2 colorama==0.4.6
         fi
         
     - name: Run homework crawler
       id: crawler
+      env:  # 修复：显式传递环境变量
+        PORTAL_USERNAME: ${{ secrets.PORTAL_USERNAME }}
+        PORTAL_PASSWORD: ${{ secrets.PORTAL_PASSWORD }}
       run: |
         echo "开始运行家课数据爬虫..."
         
@@ -56,7 +58,7 @@ jobs:
           exit 1
         fi
         
-        # 运行爬虫
+
         python homework_crawler.py
         
         # 检查是否生成了数据文件
@@ -87,7 +89,8 @@ jobs:
           "workflow_run_id": "${{ github.run_id }}",
           "workflow_run_number": "${{ github.run_number }}",
           "triggered_by": "${{ github.event_name }}",
-          "timestamp": "$(date +%s)"
+          "timestamp": "$(date +%s)",
+          "record_count": ${{ steps.crawler.outputs.record_count }}
         }
         EOF
         echo "✅ 最后更新时间文件创建成功"
@@ -103,7 +106,8 @@ jobs:
       if: steps.crawler.outputs.data_updated == 'true'
       run: |
         echo "检查文件变更..."
-        git add homework_data.json homework_data.xlsx last_update.json portal_config.json
+        git add homework_data.json homework_data.xlsx last_update.json
+        # 移除 portal_config.json 避免意外提交凭据
         if git diff --staged --quiet; then
           echo "has_changes=false" >> $GITHUB_OUTPUT
           echo "没有检测到文件变更"
@@ -123,7 +127,7 @@ jobs:
         
     - name: Trigger deployment
       if: steps.git-check.outputs.has_changes == 'true'
-      uses: actions/github-script@v6
+      uses: actions/github-script@v7  # 升级到最新版
       with:
         script: |
           try {

@@ -44,22 +44,6 @@ jobs:
           pip install requests beautifulsoup4 pandas openpyxl colorama
         fi
         
-    - name: Create config file
-      run: |
-        if [ -n "${{ secrets.PORTAL_USERNAME }}" ] && [ -n "${{ secrets.PORTAL_PASSWORD }}" ]; then
-          cat > portal_config.json << EOF
-        {
-          "username": "${{ secrets.PORTAL_USERNAME }}",
-          "password": "${{ secrets.PORTAL_PASSWORD }}",
-          "last_updated": "$(date -Iseconds)"
-        }
-        EOF
-          echo "✅ 配置文件创建成功"
-        else
-          echo "❌ GitHub Secrets中未设置PORTAL_USERNAME和PORTAL_PASSWORD"
-          echo "将使用现有数据文件（如果有）"
-        fi
-        
     - name: Run homework crawler
       id: crawler
       run: |

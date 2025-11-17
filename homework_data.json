@@ -1429,5 +1429,68 @@
     "subject": "數學 -- MATH",
     "homework_name": "CW32",
     "remarks": ""
+  },
+  {
+    "id": "74385",
+    "issue_date": "2025-11-17",
+    "due_date": "2025-11-18",
+    "class_group": "全班",
+    "subject": "普話 -- PTH",
+    "homework_name": "語文知識測驗2",
+    "remarks": "VLE 10pm"
+  },
+  {
+    "id": "74383",
+    "issue_date": "2025-11-17",
+    "due_date": "2025-11-18",
+    "class_group": "全班",
+    "subject": "數學 -- MATH",
+    "homework_name": "CW33",
+    "remarks": ""
+  },
+  {
+    "id": "記事6741",
+    "issue_date": "2025-11-17",
+    "due_date": "2025-11-26",
+    "class_group": "全班",
+    "subject": "中文 -- CHIN",
+    "homework_name": "背默《木蘭辭》1-2段，創默3段",
+    "remarks": ""
+  },
+  {
+    "id": "記事6740",
+    "issue_date": "2025-11-17",
+    "due_date": "2025-11-19",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "Gramma WB p.129",
+    "remarks": ""
+  },
+  {
+    "id": "記事6739",
+    "issue_date": "2025-11-17",
+    "due_date": "2025-11-19",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "Speaking Assessment",
+    "remarks": ""
+  },
+  {
+    "id": "74382",
+    "issue_date": "2025-11-17",
+    "due_date": "2025-11-18",
+    "class_group": "全班",
+    "subject": "普話 -- PTH",
+    "homework_name": "抄書",
+    "remarks": "2，8"
+  },
+  {
+    "id": "74373",
+    "issue_date": "2025-11-17",
+    "due_date": "2025-11-17",
+    "class_group": "全班",
+    "subject": "科學 -- SCI",
+    "homework_name": "Science book report",
+    "remarks": ""
   }
 ]

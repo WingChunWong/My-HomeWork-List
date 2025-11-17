@@ -144,7 +144,8 @@ jobs:
       if: steps.crawler.outputs.data_updated == 'true'
       run: |
         echo "检查文件变更..."
-        git add homework_data.json homework_data.xlsx last_update.json portal_config.json
+        # 修正后
+        git add homework_data.json homework_data.xlsx last_update.json
         if git diff --staged --quiet; then
           echo "has_changes=false" >> $GITHUB_OUTPUT
           echo "没有检测到文件变更"

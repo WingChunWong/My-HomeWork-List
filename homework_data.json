@@ -1492,5 +1492,50 @@
     "subject": "科學 -- SCI",
     "homework_name": "Science book report",
     "remarks": ""
+  },
+  {
+    "id": "74430",
+    "issue_date": "2025-11-18",
+    "due_date": "2025-11-19",
+    "class_group": "全班",
+    "subject": "中文 -- CHIN",
+    "homework_name": "默書簽名",
+    "remarks": ""
+  },
+  {
+    "id": "74429",
+    "issue_date": "2025-11-18",
+    "due_date": "2025-11-19",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "GB p.131",
+    "remarks": ""
+  },
+  {
+    "id": "記事6744",
+    "issue_date": "2025-11-18",
+    "due_date": "2025-11-21",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "Listening Test",
+    "remarks": "21/11"
+  },
+  {
+    "id": "74428",
+    "issue_date": "2025-11-18",
+    "due_date": "2025-11-19",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "VLE Ex 5-8",
+    "remarks": "Ex5-8 Today Ex7-8 Tmr"
+  },
+  {
+    "id": "74426",
+    "issue_date": "2025-11-18",
+    "due_date": "2025-11-19",
+    "class_group": "全班",
+    "subject": "數學 -- MATH",
+    "homework_name": "HW4A + HW Book Corr",
+    "remarks": ""
   }
 ]

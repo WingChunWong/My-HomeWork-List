@@ -19,6 +19,7 @@ on:
 # 权限设置
 permissions:
   contents: write  # 允许写入仓库内容
+  actions: write   # 允许触发其他工作流
 
 jobs:
   update-data:

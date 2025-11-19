@@ -156,7 +156,7 @@ jobs:
         fi
         
     # 步骤9: 提交并推送变更
-    - name: Commit and push changes
+    - name: Commit and push change
       if: steps.git-check.outputs.has_changes == 'true'
       run: |
         echo "提交并推送变更..."
@@ -164,27 +164,34 @@ jobs:
         COMMIT_MESSAGE="📚 自动更新家课数据 (${{ steps.crawler.outputs.record_count }} 条记录) - $CURRENT_DATE"
         git commit -m "$COMMIT_MESSAGE"
         git push
-        
-    # 步骤10: 触发部署工作流
-    - name: Trigger deployment
+  
+    # 步骤10: 直接运行部署（主要方案）
+    - name: Run deployment directly
+      if: steps.git-check.outputs.has_changes == 'true'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./
+        force_orphan: true
+    
+    # 步骤11: 同时尝试通过 repository_dispatch 触发（备用方案）
+    - name: Trigger deployment via repository_dispatch
       if: steps.git-check.outputs.has_changes == 'true'
       uses: actions/github-script@v6
       with:
         script: |
           try {
-            await github.rest.actions.createWorkflowDispatch({
+            await github.rest.repos.createDispatchEvent({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow_id: 'deploy.yml',
-              ref: 'main'
+              event_type: 'trigger_deployment'
             });
-            console.log('✅ 已成功触发部署工作流');
+            console.log('✅ 已成功通过 repository_dispatch 触发部署工作流');
           } catch (error) {
-            console.log('⚠️ 触发部署工作流失败，但数据已更新');
-            console.log('错误信息:', error.message);
+            console.log('⚠️ repository_dispatch 触发失败，但已尝试直接部署');
           }
         
-    # 步骤11: 创建运行总结（始终执行）
+    # 步骤12: 创建运行总结（始终执行）
     - name: Create summary
       if: always()
       run: |

@@ -1537,5 +1537,41 @@
     "subject": "數學 -- MATH",
     "homework_name": "HW4A + HW Book Corr",
     "remarks": ""
+  },
+  {
+    "id": "74498",
+    "issue_date": "2025-11-20",
+    "due_date": "2025-11-21",
+    "class_group": "全班",
+    "subject": "地理 -- GEOG",
+    "homework_name": "作業 p.21",
+    "remarks": ""
+  },
+  {
+    "id": "74497",
+    "issue_date": "2025-11-20",
+    "due_date": "2025-11-21",
+    "class_group": "全班",
+    "subject": "中文 -- CHIN",
+    "homework_name": "筆記",
+    "remarks": "兩頁"
+  },
+  {
+    "id": "74496",
+    "issue_date": "2025-11-20",
+    "due_date": "2025-11-21",
+    "class_group": "全班",
+    "subject": "中文 -- CHIN",
+    "homework_name": "作文改正",
+    "remarks": ""
+  },
+  {
+    "id": "74495",
+    "issue_date": "2025-11-20",
+    "due_date": "2025-11-21",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "GB p.133 135-138",
+    "remarks": ""
   }
 ]

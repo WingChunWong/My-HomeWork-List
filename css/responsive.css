@@ -1,3 +1,4 @@
+/* 响应式样式 */
 @media (max-width: 768px) {
     .container {
         padding: 0 15px;
@@ -7,15 +8,11 @@
         font-size: 1.2rem;
         text-align: center;
         flex-grow: 1;
-        color: white;
-        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        color: var(--mdc-theme-on-primary);
     }
     
-    /* 統計信息在移動設備上的調整 - 無色毛玻璃 */
     .stat-item {
         padding: 1rem 0.25rem;
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
     }
     
     .stat-item .stat-icon {
@@ -30,20 +27,18 @@
         font-size: 1.25rem;
     }
     
-    /* 分隔線在移動設備上更細 */
     .stat-item:not(:last-child)::after {
-        width: 0.7px;
+        width: 1px;
         top: 20%;
         height: 60%;
     }
     
-    /* 卡片標題在移動設備上的調整 */
     .card-header {
         flex-direction: column;
         gap: 0.5rem;
         text-align: center;
         padding: 1rem;
-        border-radius: 12px 12px 0 0 !important;
+        border-radius: var(--mdc-shape-medium) var(--mdc-shape-medium) 0 0 !important;
     }
     
     .card-header h5 {
@@ -51,23 +46,20 @@
         font-size: 1.1rem;
     }
     
-    /* 篩選器卡片在移動設備上的調整 */
     .filter-card .card-body .row > div {
         margin-bottom: 0.5rem;
     }
     
-    /* 表格在移動設備上的調整 */
     .homework-table-container {
         font-size: 0.875rem;
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-radius: 0 0 12px 12px; /* 移動設備上的圓角 */
+        border-radius: 0 0 var(--mdc-shape-medium) var(--mdc-shape-medium);
     }
     
     .homework-table th,
     .homework-table td {
         padding: 0.75rem 0.5rem;
-        white-space: nowrap; /* 防止文字換行 */
+        white-space: nowrap;
+        color: white;
     }
     
     .homework-remarks {
@@ -76,25 +68,52 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(5px);
     }
     
-    /* 狀態徽章在移動設備上的調整 */
     .status-badge {
         font-size: 0.75rem;
         padding: 0.2rem 0.5rem;
-        backdrop-filter: blur(5px);
     }
 
-    /* 家課列表卡片在移動設備上的圓角 */
     .homework-table-wrapper {
-        border-radius: 0 0 12px 12px;
+        border-radius: 0 0 var(--mdc-shape-medium) var(--mdc-shape-medium);
+    }
+        
+    body.dark-mode .homework-table-container {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+    
+    body.dark-mode .homework-remarks {
+        background: rgba(30, 30, 46, 0.5);
+        color: #a9a9c0;
+    }
+
+    /* 筛选器响应式调整 */
+    .custom-filter-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+    
+    .custom-input,
+    .custom-select,
+    .custom-reset-btn {
+        padding: 0.55rem;
+        font-size: 0.85rem;
+    }
+    
+    .custom-input,
+    .custom-select {
+        padding-left: 2rem;
+    }
+    
+    .custom-input-icon {
+        left: 0.5rem;
+        font-size: 1rem;
     }
 }
 
 @media (max-width: 576px) {
-    /* 在非常小的屏幕上隱藏部分列 */
     .homework-table th:nth-child(5),
     .homework-table td:nth-child(5),
     .homework-table th:nth-child(6),
@@ -102,11 +121,8 @@
         display: none;
     }
     
-    /* 統計信息在非常小的屏幕上的進一步調整 */
     .stat-item {
         padding: 0.75rem 0.15rem;
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
     }
     
     .stat-item .stat-icon {
@@ -123,33 +139,30 @@
         font-size: 1.1rem;
     }
     
-    /* 分隔線在非常小的屏幕上變細 */
-    .stat-item:not(:last-child)::after {
-        width: 0.5px;
-    }
-    
-    /* 篩選器標籤在非常小的屏幕上的調整 */
     .form-label {
         font-size: 0.875rem;
     }
     
-    /* 導航欄品牌居中 */
     .navbar-brand {
         font-size: 1.1rem;
     }
     
-    /* 表格容器在小屏幕上調整 */
     .homework-table-container {
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        max-height: 50vh;
     }
 
     .stat-item .stat-icon {
-        margin-bottom: 0.2rem; /* 小屏幕上进一步调整 */
+        margin-bottom: 0.2rem;
     }
 
-    .stat-item:not(:last-child)::after {
-        width: 0.5px;
+    /* 筛选器响应式调整 */
+    .custom-filter-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .custom-filter-card .card-body {
+        padding: 1rem;
     }
 }
 
@@ -168,68 +181,9 @@
     
     .homework-table-container {
         max-height: 50vh;
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
     }
 
     .stat-item .stat-icon {
-        margin-bottom: 0.25rem; /* 移动设备上减少图标底部间距 */
+        margin-bottom: 0.25rem;
     }
-
-    .main-navbar {
-        backdrop-filter: blur(16px) saturate(180%);
-        -webkit-backdrop-filter: blur(16px) saturate(180%);
-    }
-    
-    .card, .filter-card, .stat-container-card {
-        backdrop-filter: blur(14px) saturate(150%);
-        -webkit-backdrop-filter: blur(14px) saturate(150%);
-    }
-}
-
-/* 導航欄毛玻璃效果增強 */
-.main-navbar {
-    background: linear-gradient(135deg, rgba(67, 97, 238, 0.7) 0%, rgba(58, 12, 163, 0.7) 100%) !important;
-    backdrop-filter: blur(25px) saturate(180%);
-    -webkit-backdrop-filter: blur(25px) saturate(180%);
-    box-shadow: var(--shadow);
-    padding: 1rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.navbar-text small {
-    color: rgba(255, 255, 255, 0.9);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-/* 確保所有卡片圓角一致 */
-.card {
-    border-radius: 16px;
-    overflow: hidden; /* 確保內容不破壞圓角 */
-}
-
-/* 加載指示器和上傳區域圓角 */
-.loading-spinner,
-#uploadArea .alert {
-    border-radius: 16px;
-}
-
-/* 空狀態圓角 */
-.empty-state {
-    border-radius: 16px;
-}
-
-.stat-item:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    top: 15%;
-    right: 0;
-    height: 70%;
-    width: 1px;
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(2px);
-    box-shadow: 
-        1px 0 2px rgba(255, 255, 255, 0.2),
-        -1px 0 2px rgba(0, 0, 0, 0.1);
-    z-index: 1;
 }

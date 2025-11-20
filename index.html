@@ -10,25 +10,6 @@
     <!-- 在 head 中添加 -->
     <link href="https://unpkg.com/material-components-web@14.0.0/dist/material-components-web.css" rel="stylesheet">
     <script src="https://unpkg.com/material-components-web@14.0.0/dist/material-components-web.js"></script>
-    <!-- MD3 主题色配置 -->
-    <style>
-    :root {
-        /* MD3 原色 */
-        --mdc-theme-primary: #6200ee;
-        --mdc-theme-secondary: #03dac6;
-        --mdc-theme-error: #b00020;
-        /* 中性色 */
-        --mdc-theme-background: #f8f9fa;
-        --mdc-theme-surface: #ffffff;
-        --mdc-theme-on-primary: #ffffff;
-        --mdc-theme-on-secondary: #000000;
-        --mdc-theme-on-background: #000000;
-        --mdc-theme-on-surface: #000000;
-        --mdc-theme-on-error: #ffffff;
-        /* 阴影 */
-        --mdc-elevation-2: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-        --mdc-elevation-4: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
-    }
     </style>
 </head>
 <body>
@@ -41,9 +22,9 @@
                     在線家課表
                 </a>
                 <div class="navbar-buttons ms-auto d-flex align-items-center">
-                    <button id="themeToggle" class="btn btn-outline-light me-3" aria-label="切换主题">
-                        <i class="bi bi-moon"></i>
-                    </button>
+                <button id="themeToggle" class="btn btn-outline-light me-3" aria-label="切换主题">
+                    <i class="bi bi-moon transition-all duration-300"></i>
+                </button>
                 </div>
                 <div class="navbar-text ms-auto">
                     <small>最後更新: <span id="lastUpdate">-</span></small>

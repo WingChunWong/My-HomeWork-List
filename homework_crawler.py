@@ -406,18 +406,18 @@ def main(force_full_update=False):
     return homework_data
 
 def show_help():
-    """显示帮助信息"""
+    """显示爬虫工具的使用帮助信息"""
     print(f"""
 {Fore.YELLOW}家课数据爬虫使用说明{Style.RESET_ALL}
 
 {Fore.CYAN}使用方法:{Style.RESET_ALL}
   python homework_crawler.py                           # 正常运行爬虫（增量更新）
-  python homework_crawler.py --force-full-upadte/-ffu  # 强制完整更新所有数据
+  python homework_crawler.py --force-full-update/-ffu  # 强制完整更新所有数据
   python homework_crawler.py --clear                   # 清除保存的凭据
   python homework_crawler.py --help/-h                 # 显示此帮助信息
 
 {Fore.CYAN}GitHub Actions 参数:{Style.RESET_ALL}
-  在GitHub Actions中，可以通过设置 inputs.force_full_update 为 true 来触发强制完整更新
+  在GitHub Actions中，可通过设置 inputs.force_full_update 为 true 触发强制完整更新
 
 {Fore.CYAN}凭据获取优先级:{Style.RESET_ALL}
   1. 环境变量 (PORTAL_USERNAME, PORTAL_PASSWORD)
@@ -459,7 +459,7 @@ def show_help():
 {Fore.YELLOW}安全提示:{Style.RESET_ALL}
   - 不要在公共场合或共享计算机上保存密码
   - 定期更换密码
-  - 使用强密码包含字母、数字和特殊字符
+  - 使用强密码（包含字母、数字和特殊字符）
 """)
 
 if __name__ == "__main__":

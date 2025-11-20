@@ -8,7 +8,7 @@
         font-size: 1.2rem;
         text-align: center;
         flex-grow: 1;
-        color: var(--mdc-theme-on-primary);
+        color: var(--md-sys-color-on-primary);
     }
     
     .stat-item {
@@ -38,7 +38,7 @@
         gap: 0.5rem;
         text-align: center;
         padding: 1rem;
-        border-radius: var(--mdc-shape-medium) var(--mdc-shape-medium) 0 0 !important;
+        border-radius: var(--md-sys-shape-medium) var(--md-sys-shape-medium) 0 0 !important;
     }
     
     .card-header h5 {
@@ -52,14 +52,13 @@
     
     .homework-table-container {
         font-size: 0.875rem;
-        border-radius: 0 0 var(--mdc-shape-medium) var(--mdc-shape-medium);
+        border-radius: 0 0 var(--md-sys-shape-medium) var(--md-sys-shape-medium);
     }
     
     .homework-table th,
     .homework-table td {
         padding: 0.75rem 0.5rem;
         white-space: nowrap;
-        color: white;
     }
     
     .homework-remarks {
@@ -76,17 +75,17 @@
     }
 
     .homework-table-wrapper {
-        border-radius: 0 0 var(--mdc-shape-medium) var(--mdc-shape-medium);
+        border-radius: 0 0 var(--md-sys-shape-medium) var(--md-sys-shape-medium);
     }
         
-    body.dark-mode .homework-table-container {
+    body.dark-theme .homework-table-container {
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
     }
     
-    body.dark-mode .homework-remarks {
-        background: rgba(30, 30, 46, 0.5);
-        color: #a9a9c0;
+    body.dark-theme .homework-remarks {
+        background: var(--md-sys-color-surface-container-high);
+        color: var(--md-sys-color-on-surface-variant);
     }
 
     /* 筛选器响应式调整 */

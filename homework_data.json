@@ -675,15 +675,6 @@
     "remarks": ""
   },
   {
-    "id": "73443",
-    "issue_date": "2025-10-10",
-    "due_date": "2025-10-13",
-    "class_group": "全班",
-    "subject": "英文 -- ENG",
-    "homework_name": "Solid Memory",
-    "remarks": ""
-  },
-  {
     "id": "73446",
     "issue_date": "2025-10-10",
     "due_date": "2025-10-17",
@@ -699,6 +690,15 @@
     "class_group": "全班",
     "subject": "英文 -- ENG",
     "homework_name": "Reading Comprehension p.2-5",
+    "remarks": ""
+  },
+  {
+    "id": "73443",
+    "issue_date": "2025-10-10",
+    "due_date": "2025-10-13",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "Solid Memory",
     "remarks": ""
   },
   {
@@ -837,15 +837,6 @@
     "remarks": ""
   },
   {
-    "id": "73673",
-    "issue_date": "2025-10-17",
-    "due_date": "2025-10-21",
-    "class_group": "全班",
-    "subject": "科學 -- SCI",
-    "homework_name": "WB p.13 17 19",
-    "remarks": ""
-  },
-  {
     "id": "73679",
     "issue_date": "2025-10-17",
     "due_date": "2025-10-20",
@@ -861,6 +852,15 @@
     "class_group": "全班",
     "subject": "英文 -- ENG",
     "homework_name": "Pre-Vocab Quiz Corr",
+    "remarks": ""
+  },
+  {
+    "id": "73673",
+    "issue_date": "2025-10-17",
+    "due_date": "2025-10-21",
+    "class_group": "全班",
+    "subject": "科學 -- SCI",
+    "homework_name": "WB p.13 17 19",
     "remarks": ""
   },
   {
@@ -918,6 +918,15 @@
     "remarks": ""
   },
   {
+    "id": "73771",
+    "issue_date": "2025-10-21",
+    "due_date": "2025-10-22",
+    "class_group": "全班",
+    "subject": "中文 -- CHIN",
+    "homework_name": "筆記工作紙及詞解工作紙",
+    "remarks": ""
+  },
+  {
     "id": "73767",
     "issue_date": "2025-10-21",
     "due_date": "2025-10-22",
@@ -933,15 +942,6 @@
     "class_group": "全班",
     "subject": "其他z_etc",
     "homework_name": "Record 2mins presentation in VLE",
-    "remarks": ""
-  },
-  {
-    "id": "73771",
-    "issue_date": "2025-10-21",
-    "due_date": "2025-10-22",
-    "class_group": "全班",
-    "subject": "中文 -- CHIN",
-    "homework_name": "筆記工作紙及詞解工作紙",
     "remarks": ""
   },
   {
@@ -1179,21 +1179,21 @@
     "remarks": ""
   },
   {
-    "id": "74174",
-    "issue_date": "2025-11-10",
-    "due_date": "2025-11-11",
-    "class_group": "全班",
-    "subject": "英文 -- ENG",
-    "homework_name": "LIFE Text Book p.23",
-    "remarks": ""
-  },
-  {
     "id": "74182",
     "issue_date": "2025-11-10",
     "due_date": "2025-11-11",
     "class_group": "全班",
     "subject": "普話 -- PTH",
     "homework_name": "第一次語文知識驗（VLE）",
+    "remarks": ""
+  },
+  {
+    "id": "74174",
+    "issue_date": "2025-11-10",
+    "due_date": "2025-11-11",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "LIFE Text Book p.23",
     "remarks": ""
   },
   {
@@ -1251,6 +1251,15 @@
     "remarks": ""
   },
   {
+    "id": "74243",
+    "issue_date": "2025-11-12",
+    "due_date": "2025-11-13",
+    "class_group": "全班",
+    "subject": "數學 -- MATH",
+    "homework_name": "CW31",
+    "remarks": ""
+  },
+  {
     "id": "74242",
     "issue_date": "2025-11-12",
     "due_date": "2025-11-13",
@@ -1284,15 +1293,6 @@
     "class_group": "全班",
     "subject": "科學 -- SCI",
     "homework_name": "WB p.33-35",
-    "remarks": ""
-  },
-  {
-    "id": "74243",
-    "issue_date": "2025-11-12",
-    "due_date": "2025-11-13",
-    "class_group": "全班",
-    "subject": "數學 -- MATH",
-    "homework_name": "CW31",
     "remarks": ""
   },
   {
@@ -1431,6 +1431,33 @@
     "remarks": ""
   },
   {
+    "id": "記事6741",
+    "issue_date": "2025-11-17",
+    "due_date": "2025-11-26",
+    "class_group": "全班",
+    "subject": "中文 -- CHIN",
+    "homework_name": "背默《木蘭辭》1-2段，創默3段",
+    "remarks": ""
+  },
+  {
+    "id": "記事6740",
+    "issue_date": "2025-11-17",
+    "due_date": "2025-11-18",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "Gramma WB p.129",
+    "remarks": ""
+  },
+  {
+    "id": "記事6739",
+    "issue_date": "2025-11-17",
+    "due_date": "2025-11-18",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "Speaking Assessment",
+    "remarks": ""
+  },
+  {
     "id": "74385",
     "issue_date": "2025-11-17",
     "due_date": "2025-11-18",
@@ -1449,33 +1476,6 @@
     "remarks": ""
   },
   {
-    "id": "記事6741",
-    "issue_date": "2025-11-17",
-    "due_date": "2025-11-26",
-    "class_group": "全班",
-    "subject": "中文 -- CHIN",
-    "homework_name": "背默《木蘭辭》1-2段，創默3段",
-    "remarks": ""
-  },
-  {
-    "id": "記事6740",
-    "issue_date": "2025-11-17",
-    "due_date": "2025-11-19",
-    "class_group": "全班",
-    "subject": "英文 -- ENG",
-    "homework_name": "Gramma WB p.129",
-    "remarks": ""
-  },
-  {
-    "id": "記事6739",
-    "issue_date": "2025-11-17",
-    "due_date": "2025-11-19",
-    "class_group": "全班",
-    "subject": "英文 -- ENG",
-    "homework_name": "Speaking Assessment",
-    "remarks": ""
-  },
-  {
     "id": "74382",
     "issue_date": "2025-11-17",
     "due_date": "2025-11-18",
@@ -1491,15 +1491,6 @@
     "class_group": "全班",
     "subject": "科學 -- SCI",
     "homework_name": "Science book report",
-    "remarks": ""
-  },
-  {
-    "id": "74430",
-    "issue_date": "2025-11-18",
-    "due_date": "2025-11-19",
-    "class_group": "全班",
-    "subject": "中文 -- CHIN",
-    "homework_name": "默書簽名",
     "remarks": ""
   },
   {
@@ -1530,12 +1521,84 @@
     "remarks": "Ex5-8 Today Ex7-8 Tmr"
   },
   {
+    "id": "74430",
+    "issue_date": "2025-11-18",
+    "due_date": "2025-11-19",
+    "class_group": "全班",
+    "subject": "中文 -- CHIN",
+    "homework_name": "默書簽名",
+    "remarks": ""
+  },
+  {
     "id": "74426",
     "issue_date": "2025-11-18",
     "due_date": "2025-11-19",
     "class_group": "全班",
     "subject": "數學 -- MATH",
     "homework_name": "HW4A + HW Book Corr",
+    "remarks": ""
+  },
+  {
+    "id": "74481",
+    "issue_date": "2025-11-19",
+    "due_date": "2025-11-20",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "TSA VLE Ex 5-8",
+    "remarks": ""
+  },
+  {
+    "id": "記事6761",
+    "issue_date": "2025-11-19",
+    "due_date": "2025-11-20",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "Solid Memory + Razkids",
+    "remarks": ""
+  },
+  {
+    "id": "記事6760",
+    "issue_date": "2025-11-19",
+    "due_date": "2025-11-20",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "Speaking Assessment",
+    "remarks": ""
+  },
+  {
+    "id": "74480",
+    "issue_date": "2025-11-19",
+    "due_date": "2025-11-20",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "Dictation Correction",
+    "remarks": ""
+  },
+  {
+    "id": "74479",
+    "issue_date": "2025-11-19",
+    "due_date": "2025-11-20",
+    "class_group": "全班",
+    "subject": "數學 -- MATH",
+    "homework_name": "CW34",
+    "remarks": ""
+  },
+  {
+    "id": "74478",
+    "issue_date": "2025-11-19",
+    "due_date": "2025-11-20",
+    "class_group": "全班",
+    "subject": "音樂 -- MUS",
+    "homework_name": "創作拍子",
+    "remarks": ""
+  },
+  {
+    "id": "74495",
+    "issue_date": "2025-11-20",
+    "due_date": "2025-11-21",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "GB p.133 135-138",
     "remarks": ""
   },
   {
@@ -1566,12 +1629,39 @@
     "remarks": ""
   },
   {
-    "id": "74495",
-    "issue_date": "2025-11-20",
-    "due_date": "2025-11-21",
+    "id": "74578",
+    "issue_date": "2025-11-25",
+    "due_date": "2025-11-26",
+    "class_group": "全班",
+    "subject": "中文 -- CHIN",
+    "homework_name": "詞解工作紙",
+    "remarks": ""
+  },
+  {
+    "id": "記事6779",
+    "issue_date": "2025-11-25",
+    "due_date": "2025-11-26",
+    "class_group": "全班",
+    "subject": "中文 -- CHIN",
+    "homework_name": "4/12 級測",
+    "remarks": "范圍見VLE"
+  },
+  {
+    "id": "74577",
+    "issue_date": "2025-11-25",
+    "due_date": "2025-11-26",
     "class_group": "全班",
     "subject": "英文 -- ENG",
-    "homework_name": "GB p.133 135-138",
+    "homework_name": "Grammar WS (Adj. -ed & -ing)",
+    "remarks": ""
+  },
+  {
+    "id": "記事6778",
+    "issue_date": "2025-11-25",
+    "due_date": "2025-11-28",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "Grammar Quzi",
     "remarks": ""
   }
 ]

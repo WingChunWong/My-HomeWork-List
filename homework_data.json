@@ -1663,5 +1663,77 @@
     "subject": "英文 -- ENG",
     "homework_name": "Grammar Quzi",
     "remarks": ""
+  },
+  {
+    "id": "記事6790",
+    "issue_date": "2025-11-27",
+    "due_date": "2025-11-28",
+    "class_group": "全班",
+    "subject": "中文 -- CHIN",
+    "homework_name": "明默 《木蘭辭》p1-3",
+    "remarks": ""
+  },
+  {
+    "id": "記事6791",
+    "issue_date": "2025-11-27",
+    "due_date": "2025-11-28",
+    "class_group": "全班",
+    "subject": "中文 -- CHIN",
+    "homework_name": "明默 《木蘭辭》p1-3",
+    "remarks": ""
+  },
+  {
+    "id": "記事6789",
+    "issue_date": "2025-11-27",
+    "due_date": "2025-11-28",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "Grammar Test Tmr",
+    "remarks": ""
+  },
+  {
+    "id": "74623",
+    "issue_date": "2025-11-27",
+    "due_date": "2025-11-28",
+    "class_group": "全班",
+    "subject": "地理 -- GEOG",
+    "homework_name": "TB p.58",
+    "remarks": ""
+  },
+  {
+    "id": "74622",
+    "issue_date": "2025-11-27",
+    "due_date": "2025-11-28",
+    "class_group": "全班",
+    "subject": "地理 -- GEOG",
+    "homework_name": "HW p.23",
+    "remarks": ""
+  },
+  {
+    "id": "74621",
+    "issue_date": "2025-11-27",
+    "due_date": "2025-11-28",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "WR WS p.9-12",
+    "remarks": ""
+  },
+  {
+    "id": "74620",
+    "issue_date": "2025-11-27",
+    "due_date": "2025-11-28",
+    "class_group": "全班",
+    "subject": "數學 -- MATH",
+    "homework_name": "WS 5 CP.1-4",
+    "remarks": ""
+  },
+  {
+    "id": "74611",
+    "issue_date": "2025-11-27",
+    "due_date": "2025-11-27",
+    "class_group": "全班",
+    "subject": "數學 -- MATH",
+    "homework_name": "Form Test Sign",
+    "remarks": ""
   }
 ]

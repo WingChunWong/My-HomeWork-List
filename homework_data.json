@@ -1735,5 +1735,41 @@
     "subject": "數學 -- MATH",
     "homework_name": "Form Test Sign",
     "remarks": ""
+  },
+  {
+    "id": "74648",
+    "issue_date": "2025-11-28",
+    "due_date": "2025-12-01",
+    "class_group": "全班",
+    "subject": "中文 -- CHIN",
+    "homework_name": "周四級測",
+    "remarks": ""
+  },
+  {
+    "id": "74647",
+    "issue_date": "2025-11-28",
+    "due_date": "2025-12-01",
+    "class_group": "全班",
+    "subject": "中文 -- CHIN",
+    "homework_name": "步步升 4",
+    "remarks": ""
+  },
+  {
+    "id": "74646",
+    "issue_date": "2025-11-28",
+    "due_date": "2025-12-01",
+    "class_group": "全班",
+    "subject": "公經社 -- CES",
+    "homework_name": "WS",
+    "remarks": ""
+  },
+  {
+    "id": "74644",
+    "issue_date": "2025-11-28",
+    "due_date": "2025-12-01",
+    "class_group": "全班",
+    "subject": "英文 -- ENG",
+    "homework_name": "Reading Comprehension Book U.5-6",
+    "remarks": ""
   }
 ]
